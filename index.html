@@ -317,12 +317,12 @@
 
         .video-container {
             width: 100%;
-            max-width: 500px;
+            height: 500px;
             border-radius: var(--radius);
             overflow: hidden;
-            background: #000;
-            border: 1px solid rgba(255, 255, 255, .05);
-            box-shadow: 0 10px 50px rgba(0, 0, 0, .3)
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, .06);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15);
         }
 
         .hero-video {
@@ -330,13 +330,19 @@
             height: 100%;
             display: block;
             object-fit: cover;
-            aspect-ratio: 1 / 1.25;
         }
 
         @media (max-width: 1024px) {
+            .video-container {
+                height: 400px;
+                /* Adjusting for mobile without ruining layout */
+            }
+
             .hero-video {
-                aspect-ratio: 1 / 1.1;
-                max-height: 450px;
+                /* Cropping fix for mobile artifacts: 
+                   Scale up slightly and hide overflow to clip off the outer pixels */
+                transform: scale(1.05);
+                transform-origin: center center;
             }
         }
 
