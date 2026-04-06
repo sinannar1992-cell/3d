@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D-Produktmodelle für Amazon Seller | Mehr Umsatz durch bessere Darstellung</title>
+    <meta name="description"
+        content="Professionelle 3D-Produktmodelle im Amazon-kompatiblen .glb-Format. Bis zu 40% höhere Conversion. Kostenlose Vorschau. Ab 80€ pro Produkt.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <style>
+        :root {
+            --bg: #202020;
+            --bg-card: #2a2a2a;
+            --bg-card-hover: #333333;
+            --surface: #262626;
+            --text: #e4e8f1;
+            --text-muted: #8891a8;
+            --accent: #3b82f6;
+            --accent-glow: #2563eb;
+            --accent2: #f59e0b;
+            --green: #22c55e;
+            --red: #ef4444;
+            --radius: 16px;
+            --radius-sm: 10px;
+            --font-display: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --max-w: 1200px;
+            --section-py: clamp(60px, 10vw, 120px)
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: var(--font-display);
+            font-weight: 800;
+            line-height: 1.15
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none
+        }
+
+        img {
+            max-width: 100%;
+            display: block
+        }
+
+        .container {
+            max-width: var(--max-w);
+            margin: 0 auto;
+            padding: 0 clamp(20px, 4vw, 48px)
+        }
+
+        .section {
+            padding: var(--section-py) 0
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59, 130, 246, .12);
+            border: 1px solid rgba(59, 130, 246, .25);
+            color: var(--accent);
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: .85rem;
+            font-weight: 600;
+            margin-bottom: 20px
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-body);
+            font-weight: 700;
+            font-size: 1.05rem;
+            padding: 16px 36px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all .3s ease
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-glow));
+            color: #fff;
+            box-shadow: 0 4px 24px rgba(59, 130, 246, .35)
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(59, 130, 246, .5)
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, .15);
+            color: var(--text)
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent)
+        }
+
+        .section-label {
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 12px
+        }
+
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            margin-bottom: 16px
+        }
+
+        .section-sub {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 40px
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .7s ease, transform .7s ease
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        /* ===== NAV ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 16px 0;
+            background: rgba(10, 14, 26, .8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, .05)
+        }
+
+        nav .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #fff
+        }
+
+        .nav-logo span {
+            color: var(--accent)
+        }
+
+        nav .btn {
+            padding: 10px 24px;
+            font-size: .9rem
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px
+        }
+
+        .nav-links a:not(.btn) {
+            color: #fff;
+            font-size: .9rem;
+            font-weight: 500;
+            transition: color .2s
+        }
+
+        .nav-links a:not(.btn):hover {
+            color: var(--accent)
+        }
+
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px
+        }
+
+        .nav-hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text);
+            border-radius: 2px;
+            transition: .3s
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding-top: 140px;
+            padding-bottom: var(--section-py);
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(59, 130, 246, .12), transparent 70%);
+            pointer-events: none
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #fff 60%, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            max-width: 520px;
+            line-height: 1.7
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 28px
+        }
+
+        .hero-proof {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-muted);
+            font-size: .9rem
+        }
+
+        .hero-proof .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 8px var(--green)
+        }
+
+        .hero-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px
+        }
+
+        /* 3D Product CSS Illustration */
+        .product-3d {
+            width: 280px;
+            height: 320px;
+            position: relative;
+            perspective: 800px;
+            animation: float 4s ease-in-out infinite
+        }
+
+        .product-3d-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: autoRotate 8s linear infinite
+        }
+
+        .product-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .product-face.front {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(59, 130, 246, .2);
+            transform: translateZ(40px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, .4)
+        }
+
+        .product-face.back {
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 1px solid rgba(59, 130, 246, .1);
+            transform: translateZ(-40px) rotateY(180deg)
+        }
+
+        .product-face.front svg {
+            width: 120px;
+            height: 120px;
+            opacity: .7
+        }
+
+        .product-glow {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 80px;
+            background: radial-gradient(ellipse, rgba(59, 130, 246, .2), transparent 70%);
+            filter: blur(20px)
+        }
+
+        @keyframes autoRotate {
+            0% {
+                transform: rotateY(0deg) rotateX(5deg)
+            }
+
+            50% {
+                transform: rotateY(180deg) rotateX(-5deg)
+            }
+
+            100% {
+                transform: rotateY(360deg) rotateX(5deg)
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-15px)
+            }
+        }
+
+        /* ===== PROBLEM/SOLUTION ===== */
+        .ps-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px
+        }
+
+        .ps-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, .06)
+        }
+
+        .ps-card.problem {
+            border-top: 3px solid var(--red)
+        }
+
+        .ps-card.solution {
+            border-top: 3px solid var(--green)
+        }
+
+        .ps-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .ps-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: var(--text-muted);
+            font-size: .95rem;
+            line-height: 1.5
+        }
+
+        .ps-item svg {
+            flex-shrink: 0;
+            margin-top: 3px
+        }
+
+        /* ===== BENEFITS ===== */
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px
+        }
+
+        .benefit-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            transition: all .35s ease;
+            position: relative;
+            overflow: hidden
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity .35s
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(59, 130, 246, .2)
+        }
+
+        .benefit-card:hover::before {
+            opacity: 1
+        }
+
+        .benefit-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(59, 130, 246, .1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 18px
+        }
+
+        .benefit-icon svg {
+            width: 26px;
+            height: 26px;
+            stroke: var(--accent);
+            fill: none;
+            stroke-width: 1.8
+        }
+
+        .benefit-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px
+        }
+
+        .benefit-card p {
+            color: var(--text-muted);
+            font-size: .9rem;
+            line-height: 1.6
+        }
+
+        /* ===== DEMO 360° IMAGE VIEWER ===== */
+        .demo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center
+        }
+
+        .demo-viewer {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            margin-bottom: 24px
+        }
+
+        .demo-stage {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            max-height: 520px;
+            background: radial-gradient(ellipse at center, #1a2035 0%, var(--bg-card) 70%);
+            border-radius: var(--radius);
+            border: 1px solid rgba(255, 255, 255, .06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none
+        }
+
+        .demo-stage:active {
+            cursor: grabbing
+        }
+
+        .demo-stage img {
+            width: 85%;
+            height: 85%;
+            object-fit: contain;
+            pointer-events: none;
+            transition: opacity .15s ease
+        }
+
+        .demo-stage .demo-img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0
+        }
+
+        .demo-stage .demo-img.active {
+            opacity: 1
+        }
+
+        .demo-angle-indicator {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 5
+        }
+
+        .demo-angle-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .15);
+            border: 1px solid rgba(255, 255, 255, .2);
+            transition: all .25s ease
+        }
+
+        .demo-angle-dot.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 0 8px rgba(59, 130, 246, .5)
+        }
+
+        .demo-rotation-ring {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity .3s ease
+        }
+
+        .demo-stage:hover .demo-rotation-ring {
+            opacity: .3
+        }
+
+        .demo-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            background: rgba(59, 130, 246, .15);
+            border: 1px solid rgba(59, 130, 246, .25);
+            color: var(--accent);
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            z-index: 5
+        }
+
+        .demo-hint {
+            color: var(--text-muted);
+            font-size: .9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .demo-thumbnails {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 16px;
+            flex-wrap: wrap
+        }
+
+        .demo-thumb {
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, .08);
+            cursor: pointer;
+            transition: all .25s ease;
+            opacity: .5
+        }
+
+        .demo-thumb:hover {
+            opacity: .8;
+            border-color: rgba(255, 255, 255, .2)
+        }
+
+        .demo-thumb.active {
+            opacity: 1;
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(59, 130, 246, .3)
+        }
+
+        .demo-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        /* ===== PROCESS ===== */
+        .process-timeline {
+            display: flex;
+            gap: 0;
+            position: relative;
+            justify-content: space-between
+        }
+
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            top: 32px;
+            left: 40px;
+            right: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), rgba(59, 130, 246, .2))
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            padding: 0 12px
+        }
+
+        .step-num {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin: 0 auto 18px;
+            position: relative;
+            z-index: 2
+        }
+
+        .step h4 {
+            font-size: 1rem;
+            margin-bottom: 6px
+        }
+
+        .step p {
+            color: var(--text-muted);
+            font-size: .85rem;
+            line-height: 1.5
+        }
+
+        /* ===== PRICING ===== */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 24px;
+            align-items: start
+        }
+
+        .price-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 36px 32px;
+            border: 1px solid rgba(255, 255, 255, .06);
+            text-align: center;
+            transition: all .35s
+        }
+
+        .price-card:hover {
+            transform: translateY(-4px)
+        }
+
+        .price-card.featured {
+            border-color: var(--accent);
+            position: relative;
+            box-shadow: 0 0 40px rgba(59, 130, 246, .12)
+        }
+
+        .price-card.featured::before {
+            content: 'Beliebt';
+            position: absolute;
+            top: -13px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #fff;
+            font-size: .75rem;
+            font-weight: 700;
+            padding: 4px 16px;
+            border-radius: 999px
+        }
+
+        .price-amount {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin: 16px 0 4px
+        }
+
+        .price-amount span {
+            font-size: 1rem;
+            color: var(--text-muted);
+            font-weight: 500
+        }
+
+        .price-sub {
+            color: var(--text-muted);
+            font-size: .85rem;
+            margin-bottom: 24px
+        }
+
+        .price-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 28px
+        }
+
+        .price-features li {
+            padding: 8px 0;
+            font-size: .9rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        .price-features li svg {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            stroke: var(--green);
+            fill: none;
+            stroke-width: 2
+        }
+
+        .price-old {
+            text-decoration: line-through;
+            color: var(--text-muted);
+            font-size: .9rem
+        }
+
+        /* ===== TRUST ===== */
+        .trust-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            background: var(--bg-card);
+            border-radius: var(--radius-sm);
+            padding: 24px;
+            border: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        .trust-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(34, 197, 94, .1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .trust-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--green);
+            fill: none;
+            stroke-width: 2
+        }
+
+        .trust-item h4 {
+            font-size: .95rem;
+            margin-bottom: 4px
+        }
+
+        .trust-item p {
+            color: var(--text-muted);
+            font-size: .85rem
+        }
+
+        /* ===== CONTACT ===== */
+        .contact {
+            background: var(--surface);
+            border-top: 1px solid rgba(255, 255, 255, .04);
+            border-bottom: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        .contact-inner {
+            max-width: 640px;
+            margin: 0 auto;
+            text-align: center
+        }
+
+        .form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            text-align: left;
+            margin-top: 36px
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1
+        }
+
+        .form-group label {
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--text-muted)
+        }
+
+        .form-group input,
+        .form-group textarea {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: var(--radius-sm);
+            padding: 14px 16px;
+            color: var(--text);
+            font-family: var(--font-body);
+            font-size: .95rem;
+            transition: border-color .2s;
+            outline: none;
+            resize: vertical
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent)
+        }
+
+        .form-group textarea {
+            min-height: 100px
+        }
+
+        .form .btn {
+            grid-column: 1/-1;
+            justify-content: center;
+            margin-top: 8px
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid rgba(255, 255, 255, .04)
+        }
+
+        footer .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px
+        }
+
+        .footer-left p {
+            color: var(--text-muted);
+            font-size: .85rem;
+            margin-top: 6px
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 24px
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            font-size: .85rem;
+            transition: color .2s
+        }
+
+        .footer-links a:hover {
+            color: var(--text)
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:1024px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center
+            }
+
+            .hero p {
+                margin: 0 auto 32px
+            }
+
+            .hero-ctas {
+                justify-content: center
+            }
+
+            .hero-proof {
+                justify-content: center
+            }
+
+            .hero-visual {
+                min-height: 300px
+            }
+
+            .ps-grid {
+                grid-template-columns: 1fr
+            }
+
+            .process-timeline {
+                flex-direction: column;
+                gap: 32px
+            }
+
+            .process-timeline::before {
+                display: none
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr
+            }
+
+            .pricing-grid .price-card.featured {
+                order: -1
+            }
+        }
+
+        @media(max-width:640px) {
+
+            .benefits-grid,
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none
+            }
+
+            .nav-hamburger {
+                display: flex
+            }
+
+            .hero h1 {
+                font-size: 2rem
+            }
+
+            .form {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav aria-label="Hauptnavigation">
+        <div class="container">
+            <a href="#" class="nav-logo">3D<span>produkt</span></a>
+            <div class="nav-links">
+                <a href="#vorteile">Vorteile</a>
+                <a href="#preis">Preise</a>
+                <a href="#kontakt" class="btn btn-primary">Vorschau anfordern</a>
+            </div>
+            <button class="nav-hamburger" aria-label="Menü öffnen"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">🚀 Für Amazon Seller</div>
+                <h1>Dein Produkt. In 3D. Auf Amazon.</h1>
+                <p>Amazon Seller, die 3D-Modelle nutzen, berichten von bis zu 40 % höherer Conversion. Wir liefern dir
+                    deine fertige Datei in 48 Stunden – inklusive kostenloser Vorschau.</p>
+                <div class="hero-ctas">
+                    <a href="#kontakt" class="btn btn-primary">→ Kostenlose Vorschau anfordern</a>
+                </div>
+                <div class="hero-proof"><span class="dot"></span> Bereits 150+ Produkte für Amazon Seller umgesetzt
+                </div>
+            </div>
+            <div class="hero-visual">
+                <video src="81749ac7-27c6-4cab-bf88-dc157ba2721c.MP4" autoplay loop muted playsinline
+                    style="width: 100%; height: 500px; object-fit: cover; border-radius: var(--radius); border: 1px solid rgba(255, 255, 255, .06); box-shadow: 0 10px 40px rgba(59, 130, 246, 0.15); background: var(--bg-card);">
+                </video>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROBLEM / LÖSUNG -->
+    <section class="section" id="problem">
+        <div class="container">
+            <div class="section-label reveal">Warum 3D?</div>
+            <h2 class="section-title reveal">Dein Listing vs. die Konkurrenz</h2>
+            <div class="section-sub reveal">Die meisten Amazon-Listings sehen gleich aus. Mit 3D hebst du dich sofort
+                ab.</div>
+            <div class="ps-grid">
+                <div class="ps-card problem reveal">
+                    <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--red)"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M15 9l-6 6M9 9l6 6" />
+                        </svg> Heute ohne 3D</h3>
+                    <div class="ps-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)"
+                            stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12" />
+                        </svg>Standardfotos wie alle anderen</div>
+                    <div class="ps-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)"
+                            stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12" />
+                        </svg>Kunden können Produkt nicht drehen</div>
+                    <div class="ps-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)"
+                            stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12" />
+                        </svg>Hohe Retourenquote durch Erwartungslücke</div>
+                    <div class="ps-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--red)"
+                            stroke-width="2">
+                            <path d="M18 6L6 18M6 6l12 12" />
+                        </svg>Keine Differenzierung im Listing</div>
+                </div>
+                <div class="ps-card solution reveal">
+                    <h3><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--green)"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10" />
+                            <path d="M8 12l3 3 5-5" />
+                        </svg> Mit 3D-Modell</h3>
+                    <div class="ps-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="var(--green)" stroke-width="2">
+                            <path d="M5 12l4 4 10-10" />
+                        </svg>Interaktive 3D-Darstellung</div>
+                    <div class="ps-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="var(--green)" stroke-width="2">
+                            <path d="M5 12l4 4 10-10" />
+                        </svg>360°-Ansicht auf Amazon</div>
+                    <div class="ps-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="var(--green)" stroke-width="2">
+                            <path d="M5 12l4 4 10-10" />
+                        </svg>Kunden kaufen informierter</div>
+                    <div class="ps-item"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="var(--green)" stroke-width="2">
+                            <path d="M5 12l4 4 10-10" />
+                        </svg>Sofortiger Wettbewerbsvorteil</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VORTEILE -->
+    <section class="section" id="vorteile">
+        <div class="container">
+            <div class="section-label reveal">Vorteile</div>
+            <h2 class="section-title reveal">Warum sich 3D für dich auszahlt</h2>
+            <div class="section-sub reveal">Mehr als nur ein hübsches Bild – 3D-Modelle steigern deinen Umsatz messbar.
+            </div>
+            <div class="benefits-grid">
+                <div class="benefit-card reveal">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24">
+                            <path d="M23 6l-9.5 9.5-5-5L1 18" />
+                            <polyline points="17 6 23 6 23 12" />
+                        </svg></div>
+                    <h4>Höhere Conversion-Rate</h4>
+                    <p>Interaktive 3D-Darstellungen überzeugen und steigern die Kaufentscheidung um bis zu 40 %.</p>
+                </div>
+                <div class="benefit-card reveal">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z" />
+                        </svg></div>
+                    <h4>Deutlich weniger Retouren</h4>
+                    <p>Kunden können das Produkt von allen Seiten prüfen – das beugt falschen Erwartungen vor.</p>
+                </div>
+                <div class="benefit-card reveal">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="8" r="6" />
+                            <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
+                        </svg></div>
+                    <h4>Klarer Wettbewerbsvorteil</h4>
+                    <p>Heb dich von der Masse ab, indem du modernste Produktdarstellungen vor deinen Mitbewerbern nutzt.
+                    </p>
+                </div>
+                <div class="benefit-card reveal">
+                    <div class="benefit-icon"><svg viewBox="0 0 24 24">
+                            <polygon
+                                points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                        </svg></div>
+                    <h4>Premium Kundenerlebnis</h4>
+                    <p>Biete ein unvergessliches Shopping-Erlebnis und stärke nachhaltig dein Markenimage.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <!-- PROZESS -->
+    <section class="section" id="prozess">
+        <div class="container">
+            <div style="text-align:center">
+                <div class="section-label reveal">So funktioniert's</div>
+                <h2 class="section-title reveal">In 5 Minuten gestartet.</h2>
+                <div class="section-sub reveal" style="margin:0 auto 56px">Kein technisches Wissen nötig. Kein
+                    komplizierter Prozess.</div>
+            </div>
+            <div class="process-timeline">
+                <div class="step reveal">
+                    <div class="step-num">1</div>
+                    <h4>Produktlink senden</h4>
+                    <p>Einfach deinen Amazon-Link einfügen</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-num">2</div>
+                    <h4>Vorschau erhalten</h4>
+                    <p>Wir erstellen dein 3D-Modell mit Wasserzeichen – kostenlos</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-num">3</div>
+                    <h4>Prüfen & freigeben</h4>
+                    <p>Gefällt es dir? Dann geht's weiter.</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-num">4</div>
+                    <h4>Zahlung per Rechnung</h4>
+                    <p>Rechnung per E-Mail, kein Vorauszahlungsrisiko</p>
+                </div>
+                <div class="step reveal">
+                    <div class="step-num">5</div>
+                    <h4>Datei erhalten</h4>
+                    <p>Amazon-kompatibles .glb, sofort uploadbereit</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREIS -->
+    <section class="section" id="preis">
+        <div class="container">
+            <div style="text-align:center">
+                <div class="section-label reveal">Preise</div>
+                <h2 class="section-title reveal">Transparente Preise. Kein Kleingedrucktes.</h2>
+                <div class="section-sub reveal" style="margin:0 auto 48px">Zahle nur, was du brauchst. Keine versteckten
+                    Kosten.</div>
+            </div>
+            <div class="pricing-grid">
+                <div class="price-card reveal">
+                    <h3>Einzelprodukt</h3>
+                    <div class="price-amount">80 € <span>/ Produkt</span></div>
+                    <div class="price-sub">Perfekt zum Testen</div>
+                    <ul class="price-features">
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Kostenlose Vorschau</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Amazon-kompatibles .glb</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Lieferung in 24–48h</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Persönlicher Support</li>
+                    </ul>
+                    <a href="#kontakt" class="btn btn-secondary" style="width:100%;justify-content:center">Jetzt
+                        anfragen</a>
+                </div>
+                <div class="price-card featured reveal">
+                    <h3>3er Bundle</h3>
+                    <div class="price-amount">210 €</div>
+                    <div class="price-sub"><span class="price-old">240 €</span> – du sparst 30 €</div>
+                    <ul class="price-features">
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>3 Produkte zum Vorteilspreis</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Kostenlose Vorschau für alle</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Amazon-kompatibles .glb</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Lieferung in 24–48h</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Prioritäts-Support</li>
+                    </ul>
+                    <a href="#kontakt" class="btn btn-primary" style="width:100%;justify-content:center">→ Bundle
+                        anfragen</a>
+                </div>
+                <div class="price-card reveal">
+                    <h3>5er Bundle</h3>
+                    <div class="price-amount">320 €</div>
+                    <div class="price-sub"><span class="price-old">400 €</span> – du sparst 80 €</div>
+                    <ul class="price-features">
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>5 Produkte zum Bestpreis</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Kostenlose Vorschau für alle</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Amazon-kompatibles .glb</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Lieferung in 24–48h</li>
+                        <li><svg viewBox="0 0 24 24">
+                                <path d="M5 12l5 5L20 7" />
+                            </svg>Premium-Support</li>
+                    </ul>
+                    <a href="#kontakt" class="btn btn-secondary" style="width:100%;justify-content:center">Jetzt
+                        anfragen</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VERTRAUEN -->
+    <section class="section" id="vertrauen">
+        <div class="container">
+            <div style="text-align:center">
+                <div class="section-label reveal">100% Sicherheit</div>
+                <h2 class="section-title reveal">Dein Risiko: Gleich null. Lass uns starten.</h2>
+                <div class="section-sub reveal" style="margin:0 auto 48px">Teste uns komplett risikofrei. Du erhältst
+                    deine Modelle schnell, einfach und zahlst erst nach Freigabe.</div>
+            </div>
+            <div class="trust-grid">
+                <div class="trust-item reveal">
+                    <div class="trust-icon"><svg viewBox="0 0 24 24">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                        </svg></div>
+                    <div>
+                        <h4>Kostenlose Vorschau</h4>
+                        <p>Wir erstellen dein Modell vorab. Du bezahlst erst, wenn du 100% zufrieden bist.</p>
+                    </div>
+                </div>
+                <div class="trust-item reveal">
+                    <div class="trust-icon"><svg viewBox="0 0 24 24">
+                            <path d="M5 12l5 5L20 7" />
+                        </svg></div>
+                    <div>
+                        <h4>Maximale Flexibilität</h4>
+                        <p>Einmalige Zahlung pro Produkt. Keine versteckten Abos oder nervigen Verträge.</p>
+                    </div>
+                </div>
+                <div class="trust-item reveal">
+                    <div class="trust-icon"><svg viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="10" />
+                            <polyline points="12 6 12 12 16 14" />
+                        </svg></div>
+                    <div>
+                        <h4>Schnell & Persönlich</h4>
+                        <p>Direkter E-Mail Support ohne Hotline und eine garantierte Lieferung in 24–48 Stunden.</p>
+                    </div>
+                </div>
+                <div class="trust-item reveal">
+                    <div class="trust-icon"><svg viewBox="0 0 24 24">
+                            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+                            <polyline points="7 10 12 15 17 10" />
+                            <line x1="12" y1="15" x2="12" y2="3" />
+                        </svg></div>
+                    <div>
+                        <h4>Direkt für Amazon</h4>
+                        <p>Du erhältst eine perfekte .glb-Datei und kannst diese ohne Umwege bei Amazon hochladen.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KONTAKT -->
+    <section class="section contact" id="kontakt">
+        <div class="container">
+            <div class="contact-inner">
+                <div class="section-label reveal">Kontakt</div>
+                <h2 class="section-title reveal">Jetzt kostenlose Vorschau anfordern.</h2>
+                <div class="section-sub reveal" style="margin:0 auto 8px">Keine Kreditkarte. Kein Risiko. Einfach
+                    Produktlink einfügen.</div>
+                <form class="form reveal" id="contactForm" action="#" method="POST" novalidate>
+                    <div class="form-group"><label for="fname">Vorname</label><input type="text" id="fname"
+                            name="vorname" placeholder="Max"></div>
+                    <div class="form-group"><label for="lname">Nachname</label><input type="text" id="lname"
+                            name="nachname" placeholder="Mustermann"></div>
+                    <div class="form-group full"><label for="email">E-Mail-Adresse *</label><input type="email"
+                            id="email" name="email" placeholder="max@beispiel.de" required></div>
+                    <div class="form-group full"><label for="productlink">Amazon Produktlink *</label><input type="url"
+                            id="productlink" name="produktlink" placeholder="https://www.amazon.de/dp/..." required>
+                    </div>
+                    <div class="form-group full"><label for="message">Nachricht (optional)</label><textarea id="message"
+                            name="nachricht" placeholder="Hast du besondere Wünsche oder Fragen?"></textarea></div>
+                    <button type="submit" class="btn btn-primary">→ Kostenlose Vorschau anfordern</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-left">
+                <div class="nav-logo">3D<span style="color:var(--accent)">produkt</span></div>
+                <p>Professionelle 3D-Modelle für Amazon Seller.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#">Impressum</a>
+                <a href="#">Datenschutz</a>
+                <a href="#kontakt">Kontakt</a>
+            </div>
+            <div style="color:var(--text-muted);font-size:.8rem">© 2025 3Dprodukt. Alle Rechte vorbehalten.</div>
+        </div>
+    </footer>
+
+    <script>
+        /* ===== Scroll Reveal ===== */
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((e, i) => {
+                if (e.isIntersecting) {
+                    setTimeout(() => e.target.classList.add('visible'), i * 80);
+                    observer.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+
+        /* ===== Mobile Menu ===== */
+        const hamburger = document.querySelector('.nav-hamburger');
+        const navLinks = document.querySelector('.nav-links');
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                const open = navLinks.style.display === 'flex';
+                navLinks.style.display = open ? 'none' : 'flex';
+                navLinks.style.flexDirection = 'column';
+                navLinks.style.position = 'absolute';
+                navLinks.style.top = '64px';
+                navLinks.style.left = '0';
+                navLinks.style.right = '0';
+                navLinks.style.background = 'rgba(10,14,26,.95)';
+                navLinks.style.padding = '20px';
+                navLinks.style.backdropFilter = 'blur(16px)';
+                navLinks.style.borderBottom = '1px solid rgba(255,255,255,.05)';
+            });
+        }
+
+        /* ===== Form Validation ===== */
+        const form = document.getElementById('contactForm');
+        if (form) {
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const email = form.querySelector('#email');
+                const link = form.querySelector('#productlink');
+                let valid = true;
+                [email, link].forEach(f => {
+                    f.style.borderColor = f.checkValidity() ? 'rgba(255,255,255,.08)' : 'var(--red)';
+                    if (!f.checkValidity()) valid = false;
+                });
+                if (valid) {
+                    const btn = form.querySelector('button[type="submit"]');
+                    btn.textContent = '✓ Anfrage gesendet!';
+                    btn.style.background = 'var(--green)';
+                    btn.disabled = true;
+                    setTimeout(() => { btn.textContent = '→ Kostenlose Vorschau anfordern'; btn.style.background = ''; btn.disabled = false; }, 3000);
+                }
+            });
+        }
+
+        /* ===== Smooth scroll for nav links ===== */
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', (e) => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+                if (navLinks && window.innerWidth <= 640) navLinks.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>
