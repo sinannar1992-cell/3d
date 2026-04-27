@@ -1497,7 +1497,7 @@
     <!-- Scripts -->
     <script>
         // Init Lucide Icons
-        function handleFormSubmit(e) {
+        async function handleFormSubmit(e) {
             e.preventDefault();
             const form = e.target;
             
@@ -1506,24 +1506,41 @@
             const marketplaceSelect = document.getElementById('marketplace');
             const marketplaceText = marketplaceSelect.options[marketplaceSelect.selectedIndex].text;
             
-            const subject = encodeURIComponent('Neue Kontaktanfrage: ' + companyName);
-            const body = encodeURIComponent(
-                'Hallo 3dboost-Team,\n\n' +
-                'hier sind die Details einer neuen Kontaktanfrage:\n\n' +
-                'Unternehmen: ' + companyName + '\n' +
-                'E-Mail: ' + emailAddr + '\n' +
-                'Marktplatz: ' + marketplaceText + '\n\n' +
-                'Nachricht / Weitere Infos:\n'
-            );
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.innerHTML;
+            submitBtn.innerHTML = 'Senden...';
+            submitBtn.disabled = true;
             
-            window.location.href = 'mailto:contact@3dboost.de?subject=' + subject + '&body=' + body;
-            
-            form.reset();
-            const successMsg = document.getElementById('formSuccess');
-            successMsg.style.display = 'block';
-            setTimeout(() => {
-                successMsg.style.display = 'none';
-            }, 5000);
+            try {
+                const response = await fetch('https://formspree.io/f/mlgovear', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        'Unternehmen / Company': companyName,
+                        'Email': emailAddr,
+                        'Marktplatz / Marketplace': marketplaceText,
+                        '_replyto': emailAddr
+                    })
+                });
+
+                if (response.ok) {
+                    form.reset();
+                    const successMsg = document.getElementById('formSuccess');
+                    successMsg.style.display = 'block';
+                    setTimeout(() => {
+                        successMsg.style.display = 'none';
+                    }, 5000);
+                } else {
+                    alert('Es gab ein Problem beim Senden deiner Anfrage. Bitte versuche es später noch einmal.');
+                }
+            } catch (error) {
+                alert('Ein Netzwerkfehler ist aufgetreten. Bitte überprüfe deine Verbindung.');
+            } finally {
+                submitBtn.innerHTML = originalBtnText;
+                submitBtn.disabled = false;
+            }
         }
 
         lucide.createIcons();
